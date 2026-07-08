@@ -1,67 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login | FILM FEELS</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Feels | Login</title>
 
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500,600,700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "IBM Plex Sans", sans-serif;
-    }
-    .login-card {
-      width: 100%;
-      max-width: 420px;
-      border-radius: 16px;
-      padding: 28px;
-      background: rgba(0, 0, 0, 0.78);
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
-      color: #fff;
-    }
-    .login-title {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #e50914;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .btn-login {
-      background-color: #e50914;
-      border-color: #e50914;
-    }
-  </style>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:'IBM Plex Sans',sans-serif;
+            background:linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+                       url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1600&q=80");
+            background-size:cover;
+            background-position:center;
+        }
+
+        .login-card{
+            width:100%;
+            max-width:450px;
+            background:rgba(0,0,0,.82);
+            padding:35px;
+            border-radius:15px;
+            box-shadow:0 15px 40px rgba(0,0,0,.5);
+            color:#fff;
+        }
+
+        .login-title{
+            text-align:center;
+            color:#e50914;
+            font-weight:700;
+            margin-bottom:10px;
+            letter-spacing:1px;
+        }
+
+        .login-subtitle{
+            text-align:center;
+            color:#cccccc;
+            margin-bottom:25px;
+            font-size:15px;
+        }
+
+        label{
+            font-weight:500;
+        }
+
+        .form-control{
+            border-radius:8px;
+            height:45px;
+            background:#222;
+            border:1px solid #555;
+            color:#fff;
+        }
+
+        .form-control:focus{
+            background:#222;
+            color:#fff;
+            border-color:#e50914;
+            box-shadow:none;
+        }
+
+        .btn-login{
+            background:#e50914;
+            border:none;
+            height:45px;
+            font-weight:600;
+            border-radius:8px;
+        }
+
+        .btn-login:hover{
+            background:#c40812;
+        }
+
+        .btn-signup{
+            background:transparent;
+            border:2px solid #e50914;
+            color:#fff;
+            height:45px;
+            font-weight:600;
+            border-radius:8px;
+        }
+
+        .btn-signup:hover{
+            background:#e50914;
+            color:#fff;
+        }
+
+        .btn{
+            margin-top:10px;
+        }
+
+        .alert{
+            border-radius:8px;
+        }
+    </style>
 </head>
-<body id="content">
-  <div class="login-card">
+
+<body>
+
+<div class="login-card">
+
     <h2 class="login-title">FILM FEELS</h2>
+    <p class="login-subtitle">Sign in to continue</p>
 
     {% if error %}
-    <div class="alert alert-danger" role="alert">
-      {{ error }}
+    <div class="alert alert-danger">
+        {{ error }}
     </div>
     {% endif %}
 
     <form method="POST" action="/login">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text" class="form-control" required>
-      </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" class="form-control" required>
-      </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-control"
+                placeholder="Enter your username"
+                required>
+        </div>
 
-      <button type="submit" class="btn btn-danger btn-login btn-block">Login</button>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="Enter your email"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Enter your password"
+                required>
+        </div>
+
+        <button type="submit" class="btn btn-login btn-block">
+            Log In
+        </button>
+
+        <a href="/signup" class="btn btn-signup btn-block">
+            Sign Up
+        </a>
+
     </form>
-  </div>
+
+</div>
+
 </body>
 </html>
