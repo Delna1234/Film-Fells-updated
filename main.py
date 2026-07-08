@@ -473,7 +473,16 @@ def fetch_tmdb_reviews(movie_id):
     return reviews
 
 
-# HOME PAGE
+# =========================
+# LOGIN CONFIGURATION
+# =========================
+
+users = {}
+
+# =========================
+# ROOT PAGE
+# =========================
+
 @app.route("/")
 def root():
     if session.get("logged_in"):
@@ -481,26 +490,82 @@ def root():
     return redirect(url_for("login"))
 
 
+# =========================
+# LOGIN
+# =========================
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
     error = ""
 
     if session.get("logged_in"):
         return redirect(url_for("home"))
 
     if request.method == "POST":
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "")
 
-        if username == APP_LOGIN_USERNAME and password == APP_LOGIN_PASSWORD:
-            session["logged_in"] = True
-            session["username"] = username
-            return redirect(url_for("home"))
+        username = request.form["username"].strip()
+        email = request.form["email"].strip().lower()
+        password = request.form["password"]
 
-        error = "Invalid username or password."
+        if email in users:
+
+            user = users[email]
+
+            if user["username"] == username and user["password"] == password:
+
+                session["logged_in"] = True
+                session["username"] = username
+                session["email"] = email
+
+                return redirect(url_for("home"))
+
+        error = "Invalid Username, Email or Password."
 
     return render_template("login.html", error=error)
 
+# =========================
+# SIGNUP
+# =========================
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+
+    error = ""
+    success = ""
+
+    if request.method == "POST":
+
+        username = request.form["username"].strip()
+        email = request.form["email"].strip().lower()
+        password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+
+        if password != confirm_password:
+            error = "Passwords do not match."
+
+        elif email in users:
+            error = "Email already exists."
+
+        else:
+            users[email] = {
+                "username": username,
+                "password": password
+            }
+
+            success = "Account created successfully."
+
+            return redirect(url_for("login"))
+
+    return render_template(
+        "signup.html",
+        error=error,
+        success=success
+    )
+
+# =========================
+# LOGOUT
+# =========================
 
 @app.route("/logout")
 def logout():
